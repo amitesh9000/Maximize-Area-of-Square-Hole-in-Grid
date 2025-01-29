@@ -1,0 +1,32 @@
+class Solution {
+    public int maximizeSquareHoleArea(int n, int m, int[] horizontalBars, int[] verticalBars) {
+        // Find the maximum consecutive bars for both the horizontal and vertical arrays
+        int maxConsecutiveBars = Math.min(findMaxConsecutiveBars(horizontalBars), findMaxConsecutiveBars(verticalBars));
+        // The area of the largest square hole is the square of the number of maximum consecutive bars
+        return maxConsecutiveBars * maxConsecutiveBars;
+    }
+
+    // Helper method to find the length of the maximum set of consecutive bars
+    private int findMaxConsecutiveBars(int[] bars) {
+        // Sort the array to easily find consecutive numbers
+        Arrays.sort(bars);
+        // Initialize variables to store the current count of consecutive numbers and the maximum found so far
+        int maxConsecutive = 1;
+        int currentConsecutiveCount = 1;
+      
+        // Iterate through the sorted array to find the maximum set of consecutive numbers
+        for (int i = 1; i < bars.length; ++i) {
+            // If the current bar is consecutive to the previous one, increase the count
+            if (bars[i] == bars[i - 1] + 1) {
+                currentConsecutiveCount++;
+                // Update maxConsecutive with the maximum value found so far
+                maxConsecutive = Math.max(maxConsecutive, currentConsecutiveCount);
+            } else {
+                // Reset the count if the current bar is not consecutive
+                currentConsecutiveCount = 1;
+            }
+        }
+        // Return the maximum consecutive count plus one (to account for the space between bars)
+        return maxConsecutive + 1;
+    }
+}
